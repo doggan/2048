@@ -17,12 +17,8 @@ HTMLActuator.prototype.actuate = function (grid, metadata) {
       });
     });
 
-    if (metadata.terminated) {
-      if (metadata.over) {
-        self.message(false); // You lose
-      } else if (metadata.won) {
-        self.message(true); // You win!
-      }
+    if (metadata.won) {
+      self.showMessage();
     }
 
   });
@@ -96,9 +92,9 @@ HTMLActuator.prototype.positionClass = function (position) {
   return "tile-position-" + position.x + "-" + position.y;
 };
 
-HTMLActuator.prototype.message = function (won) {
-  var type    = won ? "game-won" : "game-over";
-  var message = won ? "You win!" : "Game over!";
+HTMLActuator.prototype.showMessage = function () {
+  var type    = "game-won";
+  var message = "You win!";
 
   this.messageContainer.classList.add(type);
   this.messageContainer.getElementsByTagName("p")[0].textContent = message;
@@ -107,5 +103,4 @@ HTMLActuator.prototype.message = function (won) {
 HTMLActuator.prototype.clearMessage = function () {
   // IE only takes one value to remove at a time.
   this.messageContainer.classList.remove("game-won");
-  this.messageContainer.classList.remove("game-over");
 };

@@ -19,9 +19,8 @@ GameManager.prototype.restart = function () {
   this.setup();
 };
 
-// Return true if the game is over
-GameManager.prototype.isGameTerminated = function () {
-  return this.won;
+GameManager.prototype.checkWinCondition = function() {
+  // TODO:
 };
 
 // Set up the game
@@ -61,10 +60,11 @@ GameManager.prototype.shuffleTiles = function () {
 // Sends the updated grid to the actuator
 GameManager.prototype.actuate = function () {
   this.storageManager.setGameState(this.serialize());
+
+  this.checkWinCondition();
   
   this.actuator.actuate(this.grid, {
-    won:        this.won,
-    terminated: this.isGameTerminated()
+    won:        this.won
   });
 
 };
@@ -98,7 +98,7 @@ GameManager.prototype.move = function (direction) {
   // 0: up, 1: right, 2: down, 3: left
   var self = this;
 
-  if (this.isGameTerminated()) return; // Don't do anything if the game's over
+  if (this.won) return; // Don't do anything if the game's over
 
   var cell, tile;
 
