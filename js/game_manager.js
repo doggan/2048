@@ -6,6 +6,10 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
 
   this.startTiles     = size * size - 1;
 
+  if (this.size % 2 == 0) {
+    console.error("Even size boards currently not supported.");
+  }
+
   this.inputManager.on("move", this.move.bind(this));
   this.inputManager.on("restart", this.restart.bind(this));
 
@@ -21,8 +25,37 @@ GameManager.prototype.restart = function () {
 
 // Is the current grid configuration solvable? Return true if solvable, false if not.
 GameManager.prototype.checkSolvableConfiguration = function() {
-  // TODO:
-  return true;
+  // Algorithm based on the explanation here:
+  // http://www.cs.princeton.edu/courses/archive/fall12/cos226/assignments/8puzzle.html
+  var inversionCount = 0;
+
+  for (var y = 0; y < this.size; y++) {
+    for (var x = 0; x < this.size; x++) {
+      tile = this.grid.cellContent({ x: x, y: y });
+
+      if (tile) {
+        var x2 = x;
+        for (var y2 = y; y2 < this.size; y2++) {
+          for (; x2 < this.size; x2++) {
+            var otherTile = this.grid.cellContent({ x: x2, y: y2 });
+            if (otherTile) {
+              if (tile.value > otherTile.value) {
+                inversionCount++;
+              }
+            }
+          }
+
+          // Beginning of the row.
+          x2 = 0;
+        }
+      }
+    }
+  }
+
+  // TODO: support even size boards
+
+  // Number of inversions must be even for this to be a solvable board.
+  return (inversionCount % 2) == 0;
 }
 
 GameManager.prototype.checkWinCondition = function() {
