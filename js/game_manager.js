@@ -8,7 +8,6 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
 
   this.inputManager.on("move", this.move.bind(this));
   this.inputManager.on("restart", this.restart.bind(this));
-  this.inputManager.on("keepPlaying", this.keepPlaying.bind(this));
 
   this.setup();
 }
@@ -20,15 +19,9 @@ GameManager.prototype.restart = function () {
   this.setup();
 };
 
-// Keep playing after winning (allows going over 2048)
-GameManager.prototype.keepPlaying = function () {
-  this.keepPlaying = true;
-  this.actuator.continueGame(); // Clear the game won/lost message
-};
-
-// Return true if the game is lost, or has won and the user hasn't kept playing
+// Return true if the game is over
 GameManager.prototype.isGameTerminated = function () {
-  return this.over || (this.won && !this.keepPlaying);
+  return this.won;
 };
 
 // Set up the game
@@ -39,19 +32,15 @@ GameManager.prototype.setup = function () {
   if (previousState) {
     this.grid        = new Grid(previousState.grid.size,
                                 previousState.grid.cells); // Reload grid
-    this.over        = previousState.over;
     this.won         = previousState.won;
-    this.keepPlaying = previousState.keepPlaying;
   } else {
     this.grid        = new Grid(this.size);
-    this.over        = false;
     this.won         = false;
-    this.keepPlaying = false;
 
     this.shuffleTiles();
   }
 
-  // TODO: serialize
+  // Only one cell will be available, and this will be the empty cell.
   this.emptyCell = this.grid.randomAvailableCell();
 
   // Update the actuator
@@ -71,15 +60,9 @@ GameManager.prototype.shuffleTiles = function () {
 
 // Sends the updated grid to the actuator
 GameManager.prototype.actuate = function () {
-  // Clear the state when the game is over (game over only, not win)
-  if (this.over) {
-    this.storageManager.clearGameState();
-  } else {
-    this.storageManager.setGameState(this.serialize());
-  }
-
+  this.storageManager.setGameState(this.serialize());
+  
   this.actuator.actuate(this.grid, {
-    over:       this.over,
     won:        this.won,
     terminated: this.isGameTerminated()
   });
@@ -90,9 +73,7 @@ GameManager.prototype.actuate = function () {
 GameManager.prototype.serialize = function () {
   return {
     grid:        this.grid.serialize(),
-    over:        this.over,
-    won:         this.won,
-    keepPlaying: this.keepPlaying
+    won:         this.won
   };
 };
 
@@ -100,7 +81,6 @@ GameManager.prototype.serialize = function () {
 GameManager.prototype.prepareTiles = function () {
   this.grid.eachCell(function (x, y, tile) {
     if (tile) {
-      tile.mergedFrom = null;
       tile.savePosition();
     }
   });
