@@ -316,6 +316,7 @@ hr {
 
   .tile-inner {
     border-radius: $tile-border-radius;
+    border: 2px solid black;
 
     background: $tile-color;
     text-align: center;
@@ -429,6 +430,10 @@ hr {
 .tile-new .tile-inner {
   @include animation(appear 200ms ease $transition-speed);
   @include animation-fill-mode(backwards);
+}
+
+.tile-correct {
+  border: 2px solid green !important;
 }
 
 @include keyframes(pop) {

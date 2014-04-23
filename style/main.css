@@ -279,6 +279,7 @@ hr {
   transition-property: transform; }
   .tile .tile-inner {
     border-radius: 3px;
+    border: 2px solid black;
     background: #eee4da;
     text-align: center;
     font-weight: bold;
@@ -393,6 +394,9 @@ hr {
   -webkit-animation-fill-mode: backwards;
   -moz-animation-fill-mode: backwards;
   animation-fill-mode: backwards; }
+
+.tile-correct {
+  border: 2px solid green !important; }
 
 @-webkit-keyframes pop {
   0% {

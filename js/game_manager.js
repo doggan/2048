@@ -19,13 +19,19 @@ GameManager.prototype.restart = function () {
   this.setup();
 };
 
+// Is the current grid configuration solvable? Return true if solvable, false if not.
+GameManager.prototype.checkSolvableConfiguration = function() {
+  // TODO:
+  return true;
+}
+
 GameManager.prototype.checkWinCondition = function() {
   // TODO:
 };
 
 // Set up the game
 GameManager.prototype.setup = function () {
-  var previousState = this.storageManager.getGameState();
+  var previousState = null;//this.storageManager.getGameState();
 
   // Reload the game from a previous game if present
   if (previousState) {
@@ -33,10 +39,13 @@ GameManager.prototype.setup = function () {
                                 previousState.grid.cells); // Reload grid
     this.won         = previousState.won;
   } else {
-    this.grid        = new Grid(this.size);
     this.won         = false;
 
-    this.shuffleTiles();
+    // Continue re-shuffling until we find a solvable configuration.
+    do {
+      this.grid        = new Grid(this.size);
+      this.shuffleTiles();
+    } while (!this.checkSolvableConfiguration());
   }
 
   // Only one cell will be available, and this will be the empty cell.
@@ -48,12 +57,19 @@ GameManager.prototype.setup = function () {
 
 // Shuffle the tiles for the initial layout of the board
 GameManager.prototype.shuffleTiles = function () {
-  var value = 2;
+  var value = 1;
   for (var i = 0; i < this.startTiles; i++) {
-    var tile = new Tile(this.grid.randomAvailableCell(), value);
+    // Calculate the 'correct' grid position.
+    var correctPosition;
+    {
+      var y = Math.floor((value - 1) / this.size);
+      var x = value - (y * this.size) - 1;
+      correctPosition = { x: x, y: y };
+    }
+    var tile = new Tile(this.grid.randomAvailableCell(), correctPosition, value);
     this.grid.insertTile(tile);
 
-    value <<= 1;
+    value++;
   }
 };
 
