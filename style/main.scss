@@ -231,7 +231,7 @@ hr {
 	}
       }
 
-      @include animation(fade-in 800ms ease $transition-speed * 12);
+      @include animation(fade-in 800ms ease $transition-speed * 2);
       @include animation-fill-mode(both);
 
       &.game-won {

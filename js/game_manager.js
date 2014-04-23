@@ -26,7 +26,22 @@ GameManager.prototype.checkSolvableConfiguration = function() {
 }
 
 GameManager.prototype.checkWinCondition = function() {
-  // TODO:
+  var tile;
+
+  for (var x = 0; x < this.size; x++) {
+    for (var y = 0; y < this.size; y++) {
+      tile = this.grid.cellContent({ x: x, y: y });
+
+      if (tile) {
+        if (!tile.isInCorrectPosition()) {
+          return;
+        }
+      }
+    }
+  }
+
+  // If we make it here, all tiles are in their correct positions.
+  this.won = true;
 };
 
 // Set up the game
