@@ -3,7 +3,7 @@
 
 $field-width: 500px;
 $grid-spacing: 15px;
-$grid-row-cells: 4;
+$grid-row-cells: 3;
 $tile-size: ($field-width - $grid-spacing * ($grid-row-cells + 1)) / $grid-row-cells;
 $tile-border-radius: 3px;
 
@@ -16,7 +16,7 @@ $tile-color: #eee4da;
 $tile-gold-color: #edc22e;
 $tile-gold-glow-color: lighten($tile-gold-color, 15%);
 
-$game-container-margin-top: 40px;
+$game-container-margin-top: 20px;
 $game-container-background: #bbada0;
 
 $transition-speed: 100ms;
@@ -32,7 +32,7 @@ html, body {
 }
 
 body {
-  margin: 80px 0;
+  margin: 50px 0;
 }
 
 .heading {
@@ -43,8 +43,8 @@ h1.title {
   font-size: 80px;
   font-weight: bold;
   margin: 0;
-  display: block;
-  float: left;
+  text-align: center;
+  height: 70px;
 }
 
 @include keyframes(move-up) {
@@ -455,17 +455,23 @@ hr {
   @include clearfix;
 }
 
-.game-intro {
-  float: left;
-  line-height: 42px;
-  margin-bottom: 0;
+.above-buttons {
+  width: 100%;
+  text-align: center;
 }
 
-.restart-button {
-  @include button;
-  display: block;
+.game-intro {
+  line-height: 42px;
+  margin-bottom: 0;
   text-align: center;
-  float: right;
+}
+
+.restart-button, .solve-button {
+  @include button;
+  display: inline-block;
+  margin-right: 20px;
+  text-align: center;
+  width: 100px;
 }
 
 .game-explanation {
@@ -476,7 +482,7 @@ hr {
   // Redefine variables for smaller screens
   $field-width: 280px;
   $grid-spacing: 10px;
-  $grid-row-cells: 4;
+  $grid-row-cells: 3;
   $tile-size: ($field-width - $grid-spacing * ($grid-row-cells + 1)) / $grid-row-cells;
   $tile-border-radius: 3px;
   $game-container-margin-top: 17px;
