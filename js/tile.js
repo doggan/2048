@@ -4,7 +4,7 @@ function Tile(position, correctPosition, value) {
   this.value            = value;
   this.correctPosition = correctPosition;
 
-  this.displayValue     = 1 << (value - 1);
+  this.displayValue     = 1 << value;
   this.previousPosition = null;
 }
 

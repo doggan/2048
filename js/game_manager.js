@@ -1,14 +1,10 @@
-function GameManager(size, InputManager, Actuator, StorageManager) {
-  this.size           = size; // Size of the grid
+function GameManager(InputManager, Actuator, StorageManager) {
+  this.size           = { x: 3, y: 4 }; // Size of the grid
   this.inputManager   = new InputManager;
   this.storageManager = new StorageManager;
   this.actuator       = new Actuator;
 
-  this.startTiles     = size * size - 1;
-
-  if (this.size % 2 == 0) {
-    console.error("Even size boards currently not supported.");
-  }
+  this.startTiles     = this.size.x * this.size.y - 1;
 
   this.inputManager.on("move", this.move.bind(this));
   this.inputManager.on("restart", this.restart.bind(this));
@@ -29,14 +25,14 @@ GameManager.prototype.checkSolvableConfiguration = function() {
   // http://www.cs.princeton.edu/courses/archive/fall12/cos226/assignments/8puzzle.html
   var inversionCount = 0;
 
-  for (var y = 0; y < this.size; y++) {
-    for (var x = 0; x < this.size; x++) {
+  for (var y = 0; y < this.size.y; y++) {
+    for (var x = 0; x < this.size.x; x++) {
       tile = this.grid.cellContent({ x: x, y: y });
 
       if (tile) {
         var x2 = x;
-        for (var y2 = y; y2 < this.size; y2++) {
-          for (; x2 < this.size; x2++) {
+        for (var y2 = y; y2 < this.size.y; y2++) {
+          for (; x2 < this.size.x; x2++) {
             var otherTile = this.grid.cellContent({ x: x2, y: y2 });
             if (otherTile) {
               if (tile.value > otherTile.value) {
@@ -61,8 +57,8 @@ GameManager.prototype.checkSolvableConfiguration = function() {
 GameManager.prototype.checkWinCondition = function() {
   var tile;
 
-  for (var x = 0; x < this.size; x++) {
-    for (var y = 0; y < this.size; y++) {
+  for (var x = 0; x < this.size.x; x++) {
+    for (var y = 0; y < this.size.y; y++) {
       tile = this.grid.cellContent({ x: x, y: y });
 
       if (tile) {
@@ -110,8 +106,8 @@ GameManager.prototype.shuffleTiles = function () {
     // Calculate the 'correct' grid position.
     var correctPosition;
     {
-      var y = Math.floor((value - 1) / this.size);
-      var x = value - (y * this.size) - 1;
+      var y = Math.floor((value - 1) / this.size.x);
+      var x = value - (y * this.size.x) - 1;
       correctPosition = { x: x, y: y };
     }
     var tile = new Tile(this.grid.randomAvailableCell(), correctPosition, value);
@@ -167,7 +163,6 @@ GameManager.prototype.move = function (direction) {
   var cell, tile;
 
   var vector     = this.getVector(direction);
-  var traversals = this.buildTraversals(vector);
 
   // Save the current tile positions and remove merger information
   this.prepareTiles();
@@ -195,72 +190,4 @@ GameManager.prototype.getVector = function (direction) {
   };
 
   return map[direction];
-};
-
-// Build a list of positions to traverse in the right order
-GameManager.prototype.buildTraversals = function (vector) {
-  var traversals = { x: [], y: [] };
-
-  for (var pos = 0; pos < this.size; pos++) {
-    traversals.x.push(pos);
-    traversals.y.push(pos);
-  }
-
-  // Always traverse from the farthest cell in the chosen direction
-  if (vector.x === 1) traversals.x = traversals.x.reverse();
-  if (vector.y === 1) traversals.y = traversals.y.reverse();
-
-  return traversals;
-};
-
-GameManager.prototype.findFarthestPosition = function (cell, vector) {
-  var previous;
-
-  // Progress towards the vector direction until an obstacle is found
-  do {
-    previous = cell;
-    cell     = { x: previous.x + vector.x, y: previous.y + vector.y };
-  } while (this.grid.withinBounds(cell) &&
-           this.grid.cellAvailable(cell));
-
-  return {
-    farthest: previous,
-    next: cell // Used to check if a merge is required
-  };
-};
-
-GameManager.prototype.movesAvailable = function () {
-  return this.grid.cellsAvailable() || this.tileMatchesAvailable();
-};
-
-// Check for available matches between tiles (more expensive check)
-GameManager.prototype.tileMatchesAvailable = function () {
-  var self = this;
-
-  var tile;
-
-  for (var x = 0; x < this.size; x++) {
-    for (var y = 0; y < this.size; y++) {
-      tile = this.grid.cellContent({ x: x, y: y });
-
-      if (tile) {
-        for (var direction = 0; direction < 4; direction++) {
-          var vector = self.getVector(direction);
-          var cell   = { x: x + vector.x, y: y + vector.y };
-
-          var other  = self.grid.cellContent(cell);
-
-          if (other && other.value === tile.value) {
-            return true; // These two tiles can be merged
-          }
-        }
-      }
-    }
-  }
-
-  return false;
-};
-
-GameManager.prototype.positionsEqual = function (first, second) {
-  return first.x === second.x && first.y === second.y;
 };
