@@ -1,7 +1,7 @@
 @import "helpers";
 @import "fonts/clear-sans.css";
 
-$field-width: 430px;
+$field-width: 420px;
 $grid-spacing: 15px;
 $grid-row-cells: 4;
 $grid-col-cells: 3;
@@ -467,7 +467,7 @@ hr {
 
 @include smaller($mobile-threshold) {
   // Redefine variables for smaller screens
-  $field-width: 280px;
+  $field-width: 260px;
   $grid-spacing: 10px;
   $tile-size: ($field-width - $grid-spacing * ($grid-col-cells + 1)) / $grid-col-cells;
   $field-height: $grid-row-cells * ($tile-size + $grid-spacing) + $grid-spacing;
