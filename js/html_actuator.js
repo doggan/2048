@@ -51,6 +51,10 @@ HTMLActuator.prototype.addTile = function (tile) {
   inner.classList.add("tile-inner");
   inner.textContent = tile.displayValue;
 
+  var bottom = document.createElement("div");
+  bottom.classList.add("tile-bottom");
+  bottom.innerHTML = "= 2<sup>" + (tile.value - 1) + "</sup>";
+
   if(tile.isInCorrectPosition()) {
     inner.classList.add("tile-correct");
   }
@@ -71,6 +75,7 @@ HTMLActuator.prototype.addTile = function (tile) {
 
   // Add the inner part of the tile to the wrapper
   wrapper.appendChild(inner);
+  inner.appendChild(bottom);
 
   // Put the tile on the board
   this.tileContainer.appendChild(wrapper);

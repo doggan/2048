@@ -326,6 +326,16 @@ hr {
     font-size: 55px;
   }
 
+  .tile-bottom {
+      position: absolute;
+      width: 100%;
+      bottom: 10px;
+      font-size: 16px;
+      line-height: 16px;
+      text-align: center;
+      color: $text-color;
+    }
+
   // Movement transition
   @include transition($transition-speed ease-in-out);
   -webkit-transition-property: -webkit-transform;
