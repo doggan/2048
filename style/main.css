@@ -439,7 +439,6 @@ hr {
   height: 40px;
   line-height: 42px;
   display: inline-block;
-  margin-right: 20px;
   text-align: center;
   width: 100px; }
 
@@ -455,8 +454,9 @@ hr {
     padding: 0 20px; }
 
   h1.title {
-    font-size: 27px;
-    margin-top: 15px; }
+    font-size: 34px;
+    margin-top: 15px;
+    height: 30px; }
 
   .container {
     width: 280px;
@@ -471,17 +471,16 @@ hr {
     margin-bottom: 10px; }
 
   .game-intro {
-    width: 55%;
-    display: block;
     box-sizing: border-box;
     line-height: 1.65; }
 
   .restart-button {
     width: 42%;
     padding: 0;
-    display: block;
+    display: inline-block;
     box-sizing: border-box;
-    margin-top: 2px; }
+    margin-top: 6px;
+    text-align: center; }
 
   .game-container {
     margin-top: 17px;
@@ -617,6 +616,9 @@ hr {
 
   .tile .tile-inner {
     font-size: 35px; }
+    .tile .tile-inner .tile-bottom {
+      bottom: 2px;
+      font-size: 12px; }
 
   .game-message p {
     font-size: 30px !important;

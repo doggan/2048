@@ -432,7 +432,6 @@ hr {
 .restart-button, .solve-button {
   @include button;
   display: inline-block;
-  margin-right: 20px;
   text-align: center;
   width: 100px;
 }
@@ -460,8 +459,9 @@ hr {
   }
 
   h1.title {
-    font-size: 27px;
+    font-size: 34px;
     margin-top: 15px;
+    height: 30px;
   }
 
   .container {
@@ -481,8 +481,6 @@ hr {
 
   // Show intro and restart button side by side
   .game-intro {
-    width: 55%;
-    display: block;
     box-sizing: border-box;
     line-height: 1.65;
   }
@@ -490,9 +488,10 @@ hr {
   .restart-button {
     width: 42%;
     padding: 0;
-    display: block;
+    display: inline-block;
     box-sizing: border-box;
-    margin-top: 2px;
+    margin-top: 6px;
+    text-align: center;
   }
 
   // Render the game field at the right width
@@ -501,6 +500,11 @@ hr {
   // Rest of the font-size adjustments in the tile class
   .tile .tile-inner {
     font-size: 35px;
+
+    .tile-bottom {
+      bottom: 2px;
+      font-size: 12px;
+    }
   }
 
   .game-message {
