@@ -6,5 +6,5 @@ Made just for fun. [Play it here!](http://doggan.github.io/2048-Puzzle/)
 ### Screenshot
 
 <p align="center">
-  <img src="https://github.com/doggan/2048-Puzzle/blob/master/screenshots/ss_00.png" alt="Screenshot"/>
+  <img src="https://raw.githubusercontent.com/doggan/2048-Puzzle/master/screenshots/ss_00.png" alt="Screenshot"/>
 </p>
