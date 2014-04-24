@@ -23,6 +23,7 @@ GameManager.prototype.restart = function () {
 GameManager.prototype.checkSolvableConfiguration = function() {
   // Algorithm based on the explanation here:
   // http://www.cs.princeton.edu/courses/archive/fall12/cos226/assignments/8puzzle.html
+  // http://kevingong.com/Math/SixteenPuzzle.html
   var inversionCount = 0;
 
   for (var y = 0; y < this.size.y; y++) {
