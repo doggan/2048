@@ -49,6 +49,10 @@ h1.title {
   height: 64px;
 }
 
+.sharing {
+  text-align: center;
+}
+
 @include keyframes(move-up) {
   0% {
     top: 25px;

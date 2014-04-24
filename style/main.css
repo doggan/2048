@@ -22,6 +22,9 @@ h1.title {
   text-align: center;
   height: 64px; }
 
+.sharing {
+  text-align: center; }
+
 @-webkit-keyframes move-up {
   0% {
     top: 25px;
