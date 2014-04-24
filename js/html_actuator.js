@@ -53,7 +53,7 @@ HTMLActuator.prototype.addTile = function (tile) {
 
   var bottom = document.createElement("div");
   bottom.classList.add("tile-bottom");
-  bottom.innerHTML = "= 2<sup>" + tile.value + "</sup>";
+ // bottom.innerHTML = "= 2<sup>" + tile.value + "</sup>";
 
   if(tile.isInCorrectPosition()) {
     inner.classList.add("tile-correct");
